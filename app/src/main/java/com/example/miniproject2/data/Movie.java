@@ -3,15 +3,17 @@ package com.example.miniproject2.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "categories")
-public class Category {
+@Entity(tableName = "movies")
+public class Movie {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public String name;
+    public String title;
     public String description;
+    public String posterUrl;
 
-    public Category(String name, String description) {
-        this.name = name;
+    public Movie(String title, String description, String posterUrl) {
+        this.title = title;
         this.description = description;
+        this.posterUrl = posterUrl;
     }
 }

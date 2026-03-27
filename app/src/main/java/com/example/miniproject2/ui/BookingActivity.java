@@ -166,6 +166,9 @@ public class BookingActivity extends AppCompatActivity {
         for (int i = 0; i < grid.getChildCount(); i++) {
             Button btn = (Button) grid.getChildAt(i);
             String seat = btn.getText().toString();
+            // Skip booked seats — they must always stay red + disabled
+            String seatFull = "Ghế " + seat;
+            if (bookedSeats.contains(seatFull)) continue;
             if (seat.equals(prev) || seat.equals(current)) {
                 applySeatStyle(btn, seat);
             }

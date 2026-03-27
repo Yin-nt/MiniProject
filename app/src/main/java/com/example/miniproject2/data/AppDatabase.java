@@ -6,6 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+
 import java.util.concurrent.Executors;
 
 @Database(entities = {User.class, Movie.class, Theater.class, Showtime.class, Ticket.class}, version = 1, exportSchema = false)
@@ -47,16 +49,16 @@ public abstract class AppDatabase extends RoomDatabase {
                 userDao.insert(new User("admin", "admin", "System Administrator"));
 
                 // Seed Movies with real TMDB image URLs
-                long m1 = movieDao.insert(new Movie("Avengers: Endgame", 
-                        "After the devastating events of Infinity War, the universe is in ruins.", 
+                long m1 = movieDao.insert(new Movie("Avengers: Endgame",
+                        "After the devastating events of Infinity War, the universe is in ruins.",
                         "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/or06vS3STuS5jB0gpZ3oXpkiYvB.jpg"));
-                
-                long m2 = movieDao.insert(new Movie("Inception", 
-                        "A thief who steals corporate secrets through the use of dream-sharing technology.", 
+
+                long m2 = movieDao.insert(new Movie("Inception",
+                        "A thief who steals corporate secrets through the use of dream-sharing technology.",
                         "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9gk7Fn9sVAsS9699G1o3oH0mBqX.jpg"));
-                
-                long m3 = movieDao.insert(new Movie("The Dark Knight", 
-                        "Batman raises the stakes in his war on crime with the help of Lt. Jim Gordon and Harvey Dent.", 
+
+                long m3 = movieDao.insert(new Movie("The Dark Knight",
+                        "Batman raises the stakes in his war on crime with the help of Lt. Jim Gordon and Harvey Dent.",
                         "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qJ2tW6WMUDp9aqSCWpzkN6h9Euq.jpg"));
 
                 // Seed Theaters (2 theaters)

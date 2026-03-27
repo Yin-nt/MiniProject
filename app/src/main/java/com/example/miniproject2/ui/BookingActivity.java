@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.graphics.drawable.GradientDrawable;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -101,7 +102,15 @@ public class BookingActivity extends AppCompatActivity {
 
     private Button createSeatButton(String seat) {
         Button btn = new Button(this);
+        btn.setBackground(null); // strip Material button background
         btn.setText(seat.replace("Ghế ", ""));
+        GradientDrawable initialBg = new GradientDrawable();
+        initialBg.setCornerRadius(12);
+        boolean booked = bookedSeats.contains(seat);
+        initialBg.setColor(booked ? 0xFFF44336 : 0xFF4CAF50);
+        btn.setBackground(initialBg);
+        btn.setTextColor(0xFFFFFFFF);
+        btn.setEnabled(!booked);
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
@@ -123,19 +132,21 @@ public class BookingActivity extends AppCompatActivity {
     }
 
     private void applySeatStyle(Button btn, String seatText) {
-        // bookedSeats keys are "Ghế A1", selectedSeat is "Ghế A1"
         String seatFull = "Ghế " + seatText;
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setCornerRadius(12);
         if (bookedSeats.contains(seatFull)) {
-            btn.setBackgroundResource(R.drawable.seat_booked);
-            btn.setTextColor(0xFFFFFFFF);
+            drawable.setColor(0xFFF44336);
             btn.setEnabled(false);
+            btn.setTextColor(0xFFFFFFFF);
         } else if (seatFull.equals(selectedSeat)) {
-            btn.setBackgroundResource(R.drawable.seat_selected);
+            drawable.setColor(0xFFFFC107);
             btn.setTextColor(0xFF000000);
         } else {
-            btn.setBackgroundResource(R.drawable.seat_available);
+            drawable.setColor(0xFF4CAF50);
             btn.setTextColor(0xFFFFFFFF);
         }
+        btn.setBackground(drawable);
     }
 
     private void onSeatClicked(String seat, Button btn) {

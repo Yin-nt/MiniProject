@@ -1,16 +1,16 @@
 package com.example.miniproject2.adapters;
 
 import android.content.Context;
-import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.miniproject2.R;
-import com.example.miniproject2.models.Showtime;
+import com.example.miniproject2.data.Showtime; // SỬ DỤNG SHOWTIME CỦA DATABASE
 
 import java.util.List;
 
@@ -32,17 +32,13 @@ public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.Showti
     @Override
     public void onBindViewHolder(@NonNull ShowtimeViewHolder holder, int position) {
         Showtime showtime = showtimes.get(position);
-        holder.tvTheater.setText(showtime.getTheaterName());
-        holder.tvTime.setText(showtime.getTime());
+        holder.tvTheater.setText(showtime.theaterName); // Dùng biến theaterName
+        holder.tvTime.setText(showtime.time);
 
         holder.itemView.setOnClickListener(v -> {
             Context context = holder.itemView.getContext();
             Toast.makeText(context, "Đang chuyển sang Đặt vé...", Toast.LENGTH_SHORT).show();
-
-            // TODO: Bỏ comment khi Dev 4 làm xong BookingActivity
-            // Intent intent = new Intent(context, BookingActivity.class);
-            // intent.putExtra("EXTRA_SHOWTIME_ID", showtime.getId());
-            // context.startActivity(intent);
+            // Truyền showtime.id sang cho Dev 4
         });
     }
 

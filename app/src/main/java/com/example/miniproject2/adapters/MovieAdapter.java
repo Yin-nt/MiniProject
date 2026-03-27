@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.miniproject2.R;
-import com.example.miniproject2.models.Movie;
+import com.example.miniproject2.data.Movie; // SỬ DỤNG MOVIE CỦA DATABASE
 import com.example.miniproject2.ui.MovieDetailActivity;
 
 import java.util.List;
@@ -33,8 +33,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        holder.tvTitle.setText(movie.getTitle());
-        holder.tvDesc.setText(movie.getDescription());
+        holder.tvTitle.setText(movie.title); // Sửa thành gọi trực tiếp
+        holder.tvDesc.setText(movie.description);
 
         holder.itemView.setOnClickListener(v -> {
             Context context = holder.itemView.getContext();

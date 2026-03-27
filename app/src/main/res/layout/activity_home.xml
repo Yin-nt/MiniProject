@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Phim Đang Chiếu"
-            android:textColor="@color/colorTextWhite"
+            android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -33,10 +33,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="@color/colorCardBackground"
         android:elevation="4dp"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="12dp">
 
         <Button
             android:id="@+id/btnLoginLogout"
@@ -44,28 +45,34 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="4dp"
+            android:backgroundTint="#ECEFF1"
+            android:textColor="@color/colorTextPrimary"
             android:text="Đăng nhập"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/btnTheaters"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="#ECEFF1"
+            android:textColor="@color/colorTextPrimary"
             android:text="Rạp chiếu"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/btnShowtimes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="#ECEFF1"
+            android:textColor="@color/colorTextPrimary"
             android:text="Lịch chiếu"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/btnMyTickets"
@@ -73,8 +80,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="4dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#FFFFFF"
             android:text="Vé của tôi"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -82,6 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:paddingTop="8dp"
         android:paddingBottom="16dp" />
 
 </LinearLayout>

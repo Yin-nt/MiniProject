@@ -1,6 +1,7 @@
 package com.example.miniproject2.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.miniproject2.R;
-import com.example.miniproject2.data.Showtime; // SỬ DỤNG SHOWTIME CỦA DATABASE
+import com.example.miniproject2.BookingActivity;
+import com.example.miniproject2.data.Showtime;
 
 import java.util.List;
 
@@ -37,8 +39,9 @@ public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.Showti
 
         holder.itemView.setOnClickListener(v -> {
             Context context = holder.itemView.getContext();
-            Toast.makeText(context, "Đang chuyển sang Đặt vé...", Toast.LENGTH_SHORT).show();
-            // Truyền showtime.id sang cho Dev 4
+            Intent intent = new Intent(context, BookingActivity.class);
+            intent.putExtra(BookingActivity.EXTRA_SHOWTIME_ID, showtime.id);
+            context.startActivity(intent);
         });
     }
 

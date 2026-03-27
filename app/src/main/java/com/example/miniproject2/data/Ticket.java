@@ -2,9 +2,13 @@ package com.example.miniproject2.data;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tickets",
+        indices = {
+                @Index(value = {"showtimeId", "seatNumber"}, unique = true)
+        },
         foreignKeys = {
                 @ForeignKey(entity = User.class,
                         parentColumns = "id",

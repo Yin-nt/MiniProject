@@ -5,12 +5,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Movie.class, Theater.class, Showtime.class, Ticket.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, Movie.class, Theater.class, Showtime.class, Ticket.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -69,7 +70,37 @@ public abstract class AppDatabase extends RoomDatabase {
                                     });
                                 }
                             })
-                            .fallbackToDestructiveMigration()
+                            .addMigrations(new Migration(3, 4) {
+                                @Override
+                                public void migrate(@NonNull SupportSQLiteDatabase db) {
+                                    // Step 1: Remove duplicate (showtimeId, seatNumber) rows, keep lowest id
+                                    db.execSQL(
+                                        "DELETE FROM tickets WHERE id NOT IN (" +
+                                        "SELECT MIN(id) FROM tickets GROUP BY showtimeId, seatNumber" +
+                                        ")"
+                                    );
+                                    // Step 2: Create new table with unique index
+                                    db.execSQL(
+                                        "CREATE TABLE tickets_new (" +
+                                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                                        "userId INTEGER NOT NULL, " +
+                                        "showtimeId INTEGER NOT NULL, " +
+                                        "seatNumber TEXT NOT NULL, " +
+                                        "UNIQUE(showtimeId, seatNumber), " +
+                                        "FOREIGN KEY(userId) REFERENCES `users`(`id`) ON DELETE CASCADE, " +
+                                        "FOREIGN KEY(showtimeId) REFERENCES `showtimes`(`id`) ON DELETE CASCADE)"
+                                    );
+                                    // Step 3: Copy data
+                                    db.execSQL(
+                                        "INSERT INTO tickets_new (id, userId, showtimeId, seatNumber) " +
+                                        "SELECT id, userId, showtimeId, seatNumber FROM tickets"
+                                    );
+                                    // Step 4: Drop old table
+                                    db.execSQL("DROP TABLE tickets");
+                                    // Step 5: Rename
+                                    db.execSQL("ALTER TABLE tickets_new RENAME TO tickets");
+                                }
+                            })
                             .build();
                 }
             }

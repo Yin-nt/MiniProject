@@ -7,6 +7,9 @@ import java.util.List;
 
 @Dao
 public interface ShowtimeDao {
+    @Query("SELECT * FROM showtimes WHERE id = :showtimeId LIMIT 1")
+    Showtime getShowtimeById(int showtimeId);
+
     @Query("SELECT * FROM showtimes WHERE movieId = :movieId")
     List<Showtime> getShowtimesByMovie(int movieId);
 

@@ -17,53 +17,51 @@ import com.example.miniproject2.utils.SessionManager;
 
 import java.util.List;
 
-public class ShowtimeAdapter extends RecyclerView.Adapter<ShowtimeAdapter.ShowtimeViewHolder> {
-
+public class ShowtimeFullAdapter extends RecyclerView.Adapter<ShowtimeFullAdapter.ViewHolder> {
     private List<Showtime> showtimes;
 
-    public ShowtimeAdapter(List<Showtime> showtimes) {
+    public ShowtimeFullAdapter(List<Showtime> showtimes) {
         this.showtimes = showtimes;
     }
 
     @NonNull
     @Override
-    public ShowtimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_showtime, parent, false);
-        return new ShowtimeViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_showtime_full, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShowtimeViewHolder holder, int position) {
-        Showtime showtime = showtimes.get(position);
-        holder.tvTheater.setText(showtime.theaterName);
-        holder.tvTime.setText(showtime.time);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Showtime st = showtimes.get(position);
+        holder.tvMovieTitle.setText(st.movieTitle != null ? st.movieTitle : "N/A");
+        holder.tvTheaterName.setText(st.theaterName != null ? st.theaterName : "N/A");
+        holder.tvTime.setText(st.time);
 
         holder.itemView.setOnClickListener(v -> {
             Context context = holder.itemView.getContext();
             SessionManager session = new SessionManager(context);
             if (session.checkIsLoggedIn()) {
                 Intent intent = new Intent(context, BookingActivity.class);
-                intent.putExtra(BookingActivity.EXTRA_SHOWTIME_ID, showtime.id);
+                intent.putExtra(BookingActivity.EXTRA_SHOWTIME_ID, st.id);
                 context.startActivity(intent);
             } else {
                 Intent intent = new Intent(context, LoginActivity.class);
-                intent.putExtra(LoginActivity.EXTRA_SHOWTIME_ID, showtime.id);
+                intent.putExtra(LoginActivity.EXTRA_SHOWTIME_ID, st.id);
                 context.startActivity(intent);
             }
         });
     }
 
     @Override
-    public int getItemCount() {
-        return showtimes.size();
-    }
+    public int getItemCount() { return showtimes.size(); }
 
-    public static class ShowtimeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTheater, tvTime;
-
-        public ShowtimeViewHolder(@NonNull View itemView) {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMovieTitle, tvTheaterName, tvTime;
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTheater = itemView.findViewById(R.id.tvTheaterName);
+            tvMovieTitle = itemView.findViewById(R.id.tvMovieTitle);
+            tvTheaterName = itemView.findViewById(R.id.tvTheaterName);
             tvTime = itemView.findViewById(R.id.tvTime);
         }
     }

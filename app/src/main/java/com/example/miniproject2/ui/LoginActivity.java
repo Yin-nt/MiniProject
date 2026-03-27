@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.miniproject2.ui.HomeActivity; // Đảm bảo đúng package của MainActivity
 import com.example.miniproject2.R;
 import com.example.miniproject2.data.AppDatabase;
 import com.example.miniproject2.data.User;
@@ -16,6 +15,8 @@ import com.example.miniproject2.utils.SessionManager;
 import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String EXTRA_SHOWTIME_ID = "EXTRA_SHOWTIME_ID";
 
     EditText edtUser, edtPass;
     Button btnLogin;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         db = AppDatabase.getDatabase(this);
         sessionManager = new SessionManager(this);
 
+        int showtimeId = getIntent().getIntExtra(EXTRA_SHOWTIME_ID, -1);
+
         btnLogin.setOnClickListener(v -> {
             String u = edtUser.getText().toString().trim();
             String p = edtPass.getText().toString().trim();
@@ -43,19 +46,21 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Room không cho phép truy vấn trên Main Thread, dùng Executor để chạy ngầm
             Executors.newSingleThreadExecutor().execute(() -> {
-                // Sử dụng userDao() đã định nghĩa trong AppDatabase
                 User acc = db.userDao().login(u, p);
-
                 runOnUiThread(() -> {
                     if (acc != null) {
-                        // Lưu session
                         sessionManager.saveLoginSession(acc.getId());
                         Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                        finish();
+                        if (showtimeId != -1) {
+                            Intent intent = new Intent(LoginActivity.this, BookingActivity.class);
+                            intent.putExtra(BookingActivity.EXTRA_SHOWTIME_ID, showtimeId);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                        }
                     } else {
                         Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                     }

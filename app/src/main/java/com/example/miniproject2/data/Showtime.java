@@ -20,6 +20,9 @@ public class Showtime {
     @Ignore
     public String theaterName;
 
+    @Ignore
+    public String movieTitle;
+
     public Showtime(int movieId, int theaterId, String time) {
         this.movieId = movieId;
         this.theaterId = theaterId;

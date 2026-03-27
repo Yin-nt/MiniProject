@@ -10,6 +10,9 @@ public interface TheaterDao {
     @Query("SELECT * FROM theaters")
     List<Theater> getAllTheaters();
 
+    @Query("SELECT * FROM theaters WHERE id = :theaterId LIMIT 1")
+    Theater getTheaterById(int theaterId);
+
     @Insert
     long insert(Theater theater);
 }

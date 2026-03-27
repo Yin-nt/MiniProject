@@ -5,66 +5,85 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="6dp"
-    app:cardBackgroundColor="@color/colorCardBackground"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ivMoviePoster"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:text="Tên Phim"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="19sp"
+            android:textColor="#1976D2"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivMoviePoster"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivTheaterIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
             android:src="@android:drawable/ic_menu_mylocation"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle"
-            app:tint="@color/colorAccent" />
+            app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
 
         <TextView
             android:id="@+id/tvTheaterName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
             android:text="Tên Rạp"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="15sp"
+            android:textColor="#757575"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivTheaterIcon"
-            app:layout_constraintEnd_toStartOf="@+id/tvTime"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivTheaterIcon"
             app:layout_constraintTop_toTopOf="@+id/ivTheaterIcon" />
+
+        <TextView
+            android:id="@+id/tvTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Giờ chiếu:"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvMovieTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTheaterName" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFEBEE"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:layout_marginStart="8dp"
+            android:background="#E3F2FD"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
             android:text="18:00"
-            android:textColor="@color/colorTextAction"
-            android:textSize="18sp"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ivTheaterIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivTheaterIcon" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvTimeLabel"
+            app:layout_constraintStart_toEndOf="@+id/tvTimeLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvTimeLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

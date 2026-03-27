@@ -8,14 +8,14 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Category.class, Product.class, Order.class, OrderDetail.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Movie.class, Theater.class, Showtime.class, Ticket.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
-    public abstract CategoryDao categoryDao();
-    public abstract ProductDao productDao();
-    public abstract OrderDao orderDao();
-    public abstract OrderDetailDao orderDetailDao();
+    public abstract MovieDao movieDao();
+    public abstract TheaterDao theaterDao();
+    public abstract ShowtimeDao showtimeDao();
+    public abstract TicketDao ticketDao();
 
     private static volatile AppDatabase INSTANCE;
 
@@ -24,7 +24,7 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "shopping_database")
+                                    AppDatabase.class, "movie_ticket_database")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -39,26 +39,28 @@ public abstract class AppDatabase extends RoomDatabase {
             super.onCreate(db);
             Executors.newSingleThreadExecutor().execute(() -> {
                 UserDao userDao = INSTANCE.userDao();
-                CategoryDao categoryDao = INSTANCE.categoryDao();
-                ProductDao productDao = INSTANCE.productDao();
+                MovieDao movieDao = INSTANCE.movieDao();
+                TheaterDao theaterDao = INSTANCE.theaterDao();
+                ShowtimeDao showtimeDao = INSTANCE.showtimeDao();
 
                 // Seed User
                 userDao.insert(new User("admin", "admin", "System Administrator"));
 
-                // Seed Categories
-                long cat1 = categoryDao.insert(new Category("Electronics", "Gadgets and devices"));
-                long cat2 = categoryDao.insert(new Category("Clothing", "Apparel and fashion"));
-                long cat3 = categoryDao.insert(new Category("Home & Kitchen", "Appliances and furniture"));
+                // Seed Movies (3 movies)
+                long m1 = movieDao.insert(new Movie("Avengers: Endgame", "The Avengers assemble once more.", "url_avengers"));
+                long m2 = movieDao.insert(new Movie("Inception", "A thief who steals corporate secrets through the use of dream-sharing.", "url_inception"));
+                long m3 = movieDao.insert(new Movie("The Dark Knight", "Batman raises the stakes in his war on crime.", "url_dark_knight"));
 
-                // Seed Products
-                productDao.insert(new Product((int) cat1, "Smartphone", 999.99, "Latest flagship smartphone", "url_phone"));
-                productDao.insert(new Product((int) cat1, "Laptop", 1299.50, "Powerful laptop for work", "url_laptop"));
-                productDao.insert(new Product((int) cat2, "T-Shirt", 19.99, "Comfortable cotton t-shirt", "url_tshirt"));
-                productDao.insert(new Product((int) cat2, "Jeans", 49.99, "Classic blue jeans", "url_jeans"));
-                productDao.insert(new Product((int) cat3, "Coffee Maker", 89.00, "Brews delicious coffee", "url_coffee"));
-                productDao.insert(new Product((int) cat3, "Toaster", 25.00, "2-slice toaster", "url_toaster"));
-                productDao.insert(new Product((int) cat1, "Headphones", 150.00, "Noise-cancelling headphones", "url_headphones"));
-                productDao.insert(new Product((int) cat2, "Jacket", 120.00, "Warm winter jacket", "url_jacket"));
+                // Seed Theaters (2 theaters)
+                long t1 = theaterDao.insert(new Theater("CGV Vincom", "123 Ba Trieu, Hanoi"));
+                long t2 = theaterDao.insert(new Theater("Lotte Cinema", "456 Tay Son, Hanoi"));
+
+                // Seed Showtimes (4-5 showtimes)
+                showtimeDao.insert(new Showtime((int) m1, (int) t1, "18:00"));
+                showtimeDao.insert(new Showtime((int) m1, (int) t2, "20:30"));
+                showtimeDao.insert(new Showtime((int) m2, (int) t1, "15:00"));
+                showtimeDao.insert(new Showtime((int) m3, (int) t2, "21:00"));
+                showtimeDao.insert(new Showtime((int) m2, (int) t2, "17:30"));
             });
         }
     };

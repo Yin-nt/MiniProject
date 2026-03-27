@@ -122,12 +122,14 @@ public class BookingActivity extends AppCompatActivity {
         return btn;
     }
 
-    private void applySeatStyle(Button btn, String seat) {
-        if (bookedSeats.contains(seat)) {
+    private void applySeatStyle(Button btn, String seatText) {
+        // bookedSeats keys are "Ghế A1", selectedSeat is "Ghế A1"
+        String seatFull = "Ghế " + seatText;
+        if (bookedSeats.contains(seatFull)) {
             btn.setBackgroundResource(R.drawable.seat_booked);
             btn.setTextColor(0xFFFFFFFF);
             btn.setEnabled(false);
-        } else if (seat.equals(selectedSeat)) {
+        } else if (seatFull.equals(selectedSeat)) {
             btn.setBackgroundResource(R.drawable.seat_selected);
             btn.setTextColor(0xFF000000);
         } else {
@@ -147,21 +149,23 @@ public class BookingActivity extends AppCompatActivity {
         selectedSeat = seat;
 
         // Re-apply styles for all seats (prev + new)
-        refreshAllSeatStyles(prev, seat);
+        refreshAllSeatStyles(
+                prev != null ? prev.replace("Ghế ", "") : null,
+                seat.replace("Ghế ", ""));
 
         tvSelectedSeat.setText("Ghế đã chọn: " + seat);
         btnBook.setEnabled(true);
     }
 
     private void refreshAllSeatStyles(String prev, String current) {
-        refreshRowStyles(gridRowA, "A", prev, current);
-        refreshRowStyles(gridRowB, "B", prev, current);
+        refreshRowStyles(gridRowA, prev, current);
+        refreshRowStyles(gridRowB, prev, current);
     }
 
-    private void refreshRowStyles(GridLayout grid, String row, String prev, String current) {
+    private void refreshRowStyles(GridLayout grid, String prev, String current) {
         for (int i = 0; i < grid.getChildCount(); i++) {
             Button btn = (Button) grid.getChildAt(i);
-            String seat = "Ghế " + row + btn.getText().toString();
+            String seat = btn.getText().toString();
             if (seat.equals(prev) || seat.equals(current)) {
                 applySeatStyle(btn, seat);
             }

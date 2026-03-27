@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MiniProject2">
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.LoginActivity"
             android:exported="false" />
 
         <activity
@@ -32,7 +32,19 @@
             android:exported="false" />
 
         <activity
-            android:name=".BookingActivity"
+            android:name=".ui.BookingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.TheatersActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ShowtimesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.MyTicketsActivity"
             android:exported="false" />
 
     </application>

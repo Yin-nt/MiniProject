@@ -1,5 +1,6 @@
 package com.example.miniproject2.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,9 +22,23 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class MyTicketsActivity extends AppCompatActivity {
+    
+    public static final String EXTRA_FROM_MY_TICKETS = "EXTRA_FROM_MY_TICKETS";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Check login first
+        SessionManager sessionManager = new SessionManager(this);
+        if (!sessionManager.checkIsLoggedIn()) {
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.putExtra(EXTRA_FROM_MY_TICKETS, true);
+            startActivity(loginIntent);
+            finish();
+            return;
+        }
+        
         setContentView(R.layout.activity_my_tickets);
 
         Button btnBack = findViewById(R.id.btnBack);
@@ -33,8 +48,6 @@ public class MyTicketsActivity extends AppCompatActivity {
         rvTickets.setLayoutManager(new LinearLayoutManager(this));
 
         TextView tvEmpty = findViewById(R.id.tvEmpty);
-
-        SessionManager sessionManager = new SessionManager(this);
         int userId = sessionManager.getUserId();
 
         Executors.newSingleThreadExecutor().execute(() -> {

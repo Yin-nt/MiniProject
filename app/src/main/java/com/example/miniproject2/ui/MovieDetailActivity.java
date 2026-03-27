@@ -1,12 +1,14 @@
 package com.example.miniproject2.ui;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.miniproject2.R;
 import com.example.miniproject2.adapters.ShowtimeAdapter;
 import com.example.miniproject2.data.AppDatabase;
@@ -24,12 +26,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        // Nút Back
-        Button btnBack = findViewById(R.id.btnBack);
+        ImageButton btnBack = findViewById(R.id.btnBack);
         if(btnBack != null) btnBack.setOnClickListener(v -> finish());
 
         TextView tvTitle = findViewById(R.id.tvDetailTitle);
         TextView tvDesc = findViewById(R.id.tvDetailDesc);
+        ImageView ivDetailPoster = findViewById(R.id.ivDetailPoster);
         RecyclerView rvShowtimes = findViewById(R.id.rvShowtimes);
         rvShowtimes.setLayoutManager(new LinearLayoutManager(this));
 
@@ -39,12 +41,17 @@ public class MovieDetailActivity extends AppCompatActivity {
             tvTitle.setText(movie.title);
             tvDesc.setText(movie.description);
 
-            // XỬ LÝ DATABASE NGẦM
+            Glide.with(this)
+                    .load(movie.posterUrl)
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .centerCrop()
+                    .into(ivDetailPoster);
+
+            // DATABASE NGẦM
             Executors.newSingleThreadExecutor().execute(() -> {
                 AppDatabase db = AppDatabase.getDatabase(this);
 
                 List<Showtime> realShowtimes = db.showtimeDao().getShowtimesByMovie(movie.id);
-
                 List<Theater> allTheaters = db.theaterDao().getAllTheaters();
                 for (Showtime st : realShowtimes) {
                     for (Theater t : allTheaters) {

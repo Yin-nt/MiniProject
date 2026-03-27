@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#00796B</color>
+    <color name="colorPrimaryDark">#004D40</color>
+    <color name="colorAccent">#00BFA5</color>
+
+    <color name="colorBackground">#F8F9FA</color>
+    <color name="colorCardBackground">#FFFFFF</color>
+    <color name="colorDivider">#E0E0E0</color>
+
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorTextAction">#D32F2F</color> <color name="colorRatingStar">#FFC107</color>
 </resources>
